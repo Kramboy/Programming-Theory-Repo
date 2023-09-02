@@ -1,18 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class UIMenuManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private const int MAIN_SCENE_INDEX = 1;
+
+    public void StartGame()
     {
-        
+        SceneManager.LoadScene(MAIN_SCENE_INDEX);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ExitGame()
     {
-        
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.ExitPlaymode();
+#endif
+        Application.Quit();
     }
 }
