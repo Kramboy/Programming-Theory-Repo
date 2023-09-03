@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -16,6 +14,15 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         HandleMovement();
+        CheckGround();
+    }
+
+    private void CheckGround()
+    {
+        if(transform.position.y > 0f)
+        {
+            transform.position = new(transform.position.x, 0f, transform.position.z);
+        }
     }
 
     private void HandleMovement()

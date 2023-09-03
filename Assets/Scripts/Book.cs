@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Book : Weapon
@@ -8,28 +5,30 @@ public class Book : Weapon
     [SerializeField] private float speed;
 
     private Rigidbody rb;
-    private bool collided;
 
     private void Awake()
     {
-        collided = false;
         rb = GetComponent<Rigidbody>();
         Destroy(gameObject, 3f);
     }
-    private void Update()
+    private void Start()
     {
-        if(!collided)
-        Translate(speed);
+        rb.AddForce(transform.forward * 1000f, ForceMode.Impulse);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        collided = true;
-        EnableRB();
+        rb.useGravity = true;
+        if (!collision.collider.CompareTag("Weapon") && collision.rigidbody != null)
+        {
+            rb.AddForce(-rb.velocity * 100, ForceMode.Impulse);
+            collision.rigidbody.AddForce(rb.velocity, ForceMode.Impulse);
+            EnableRB();
+        }
     }
 
     private void EnableRB()
     {
-        rb.useGravity = true;
+        gameObject.layer = LayerMask.NameToLayer("Dead");
     }
 }
