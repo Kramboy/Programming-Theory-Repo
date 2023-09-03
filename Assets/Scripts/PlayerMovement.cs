@@ -22,19 +22,19 @@ public class PlayerMovement : MonoBehaviour
     {
         float horizontalInput = 0f;
         float verticalInput = 0f;
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             horizontalInput = -1;
         }
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.RightArrow))
         {
             horizontalInput = 1;
         }
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.UpArrow))
         {
             verticalInput = 1;
         }
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.DownArrow))
         {
             verticalInput = -1;
         }
@@ -42,9 +42,13 @@ public class PlayerMovement : MonoBehaviour
         Vector3 movementDirection = new(horizontalInput, 0f, verticalInput);
         movementDirection.Normalize();
         controller.Move(movementSpeed * Time.deltaTime * movementDirection);
-        if(movementDirection != Vector3.zero)
-        {
-            controller.transform.rotation = Quaternion.Slerp(controller.transform.rotation, Quaternion.LookRotation(movementDirection), Time.deltaTime * rotationSpeed);
-        }
+        /* Handle Rotation
+         * 
+         * if(movementDirection != Vector3.zero)
+         * {
+         *     controller.transform.rotation = Quaternion.Slerp(controller.transform.rotation, Quaternion.LookRotation(movementDirection), Time.deltaTime * rotationSpeed);
+         * }
+         * 
+         */
     }
 }
