@@ -1,33 +1,39 @@
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    public event EventHandler OnEnemyKilled;
-
+    private Player player;
     private Rigidbody rb;
+    private NavMeshAgent agent;
     private readonly int deadLayerIndex = 6;
-    private float speed = 1;
     private bool collided;
-    private Vector3 movement;
+    private float speed = 1f;
 
     private void Awake()
     {
+        agent = GetComponent<NavMeshAgent>();
         collided = false;
-        movement = -transform.forward;
         rb = GetComponent<Rigidbody>();
+        player = FindAnyObjectByType<Player>();
+    }
+
+    private void Start()
+    {
+        agent.speed = speed;
     }
 
     private void Update()
     {
-        if(!collided)
-        transform.Translate(speed * Time.deltaTime * movement);
-        UpdateSpeed();
+        if (!collided)
+            agent.SetDestination(player.transform.position);
+        if (transform.position.z < -10) Destroy(gameObject);
     }
 
-    private void UpdateSpeed()
+    public void SetSpeed(float speed)
     {
-         speed = Time.time;
+        this.speed = speed;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -39,15 +45,15 @@ public class Enemy : MonoBehaviour
         }
         if (collision.collider.CompareTag("Player"))
         {
-            movement *= -1;
-            speed *= 10;
+            agent.SetDestination((transform.position - player.transform.position).normalized);
+            agent.speed *= 10;
             Destroy(gameObject, 2f);
         }
     }
 
     private void Die()
     {
-        OnEnemyKilled?.Invoke(this, EventArgs.Empty);
+        Destroy(agent);
         rb.constraints = RigidbodyConstraints.None;
         gameObject.layer = deadLayerIndex;
         rb.useGravity = true;

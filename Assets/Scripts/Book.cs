@@ -1,5 +1,7 @@
 using UnityEngine;
 
+
+// INHERITANCE
 public class Book : Weapon
 {
     [SerializeField] private float speed;
@@ -13,7 +15,8 @@ public class Book : Weapon
     }
     private void Start()
     {
-        rb.AddForce(transform.forward * 1000f, ForceMode.Impulse);
+        // POLYMORPHISM
+        Impulse(rb, 1000);
     }
 
     private void OnCollisionEnter(Collision collision)

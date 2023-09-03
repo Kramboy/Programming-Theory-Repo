@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
+    // ENCAPSULATION
+
     [SerializeField] MainManager mainManager;
 
     [SerializeField] private Transform pfEnemy;
@@ -26,10 +28,12 @@ public class SpawnManager : MonoBehaviour
             {
                 if (IsValidSpawnPosition(GetRandomPosition(out Vector3 position)))
                 {
-                    Instantiate(pfEnemy, position, Quaternion.identity);
+                    Transform enemyPrefab = Instantiate(pfEnemy, position, Quaternion.identity);
+                    Enemy newEnemy = enemyPrefab.GetComponent<Enemy>();
+                    newEnemy.SetSpeed(mainManager.GetLevel());
                 }
             }
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(5f);
         }
     }
 

@@ -1,10 +1,10 @@
 using UnityEngine;
 
+// INHERITANCE
 public abstract class Weapon : MonoBehaviour
 {
-
-    protected virtual void Translate(float speed)
+    protected virtual void Impulse(Rigidbody rigidbody, float forceMagnitude)
     {
-        transform.Translate(speed * Time.deltaTime * transform.forward);
+        rigidbody.AddForce(transform.forward * forceMagnitude, ForceMode.Impulse);
     }
 }

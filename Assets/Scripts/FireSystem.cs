@@ -16,7 +16,7 @@ public class FireSystem : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
         {
             if (ammo > 0) Fire(currentWeapon);
             //else Debug.Log($"Not enough ammo for {currentWeapon.WeaponSObject.weaponName}");
